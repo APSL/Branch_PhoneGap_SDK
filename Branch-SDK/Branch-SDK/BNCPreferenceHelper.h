@@ -8,15 +8,33 @@
 
 #import <Foundation/Foundation.h>
 
+#define FILE_NAME   [[NSString stringWithUTF8String:__FILE__] lastPathComponent]
+#define LINE_NUM    __LINE__
+
 static NSString *NO_STRING_VALUE = @"bnc_no_value";
+
+@protocol BNCDebugConnectionDelegate <NSObject>
+
+- (void)bnc_debugConnectionEstablished;
+
+@end
 
 @interface BNCPreferenceHelper : NSObject
 
 + (NSString *)getAPIBaseURL;
-+ (NSString *)getAPIURL;
++ (NSString *)getAPIURL:(NSString *) endpoint;
 
-+ (void)setAppKey:(NSString *)appKey;
++ (void)setTimeout:(NSInteger)timeout;
++ (NSInteger)getTimeout;
+
++ (void)setRetryInterval:(NSInteger)retryInterval;
++ (NSInteger)getRetryInterval;
+
++ (void)setRetryCount:(NSInteger)retryCount;
++ (NSInteger)getRetryCount;
+
 + (NSString *)getAppKey;
++ (void)setAppKey:(NSString *)appKey;
 
 + (void)setDeviceFingerprintID:(NSString *)deviceID;
 + (NSString *)getDeviceFingerprintID;
@@ -45,6 +63,9 @@ static NSString *NO_STRING_VALUE = @"bnc_no_value";
 + (void)setUserIdentity:(NSString *)userIdentity;
 + (NSString *)getUserIdentity;
 
++ (void)setAppListCheckDone;
++ (BOOL)getNeedAppListCheck;
+
 + (NSInteger)getIsReferrable;
 + (void)setIsReferrable;
 + (void)clearIsReferrable;
@@ -63,5 +84,15 @@ static NSString *NO_STRING_VALUE = @"bnc_no_value";
 
 + (NSString *)base64EncodeStringToString:(NSString *)strData;
 + (NSString *)base64DecodeStringToString:(NSString *)strData;
+
++ (void)setDevDebug;
++ (BOOL)getDevDebug;
++ (void)setDebug;
++ (void)clearDebug;
++ (BOOL)isDebug;
++ (void)log:(NSString *)filename line:(int)line message:(NSString *)format, ...;
++ (void)sendScreenshot:(NSData *)data;
++ (void)setDebugConnectionDelegate:(id<BNCDebugConnectionDelegate>) debugConnectionDelegate;
++ (void)keepDebugAlive;
 
 @end
